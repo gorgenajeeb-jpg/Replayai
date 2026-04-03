@@ -6,30 +6,25 @@
 <title>ReplyAI</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Segoe UI', sans-serif; background: #0a0a0a; color: #fff; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-
-  /* LANDING */
-  #landing { text-align: center; max-width: 380px; width: 100%; padding: 20px; animation: fadeUp 0.6s ease; }
+  body { font-family: 'Segoe UI', sans-serif; background: #0a0a0a; color: #fff; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  #landing { text-align: center; max-width: 380px; width: 100%; padding: 20px; }
   .logo-mark { font-size: 36px; color: #E1306C; margin-bottom: 12px; }
   h1 { font-size: 48px; font-weight: 800; letter-spacing: -2px; background: linear-gradient(135deg, #fff 40%, #E1306C); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 12px; }
   .tagline { color: #888; font-size: 16px; line-height: 1.6; margin-bottom: 36px; }
   .btn-primary { display: block; width: 100%; background: linear-gradient(135deg, #E1306C, #F77737); border: none; border-radius: 14px; color: #fff; font-size: 15px; font-weight: 700; padding: 16px; cursor: pointer; margin-bottom: 12px; }
   .btn-ghost { display: block; width: 100%; background: transparent; border: 1px solid #2a2a2a; border-radius: 14px; color: #666; font-size: 14px; padding: 14px; cursor: pointer; }
-
-  /* ONBOARDING */
-  #onboarding { max-width: 420px; width: 100%; padding: 20px; animation: fadeUp 0.5s ease; display: none; }
-  .back-btn { background: none; border: none; color: #666; font-size: 14px; cursor: pointer; margin-bottom: 20px; display: block; }
-  .step-dots { display: flex; gap: 8px; margin-bottom: 28px; }
-  .dot { width: 8px; height: 8px; border-radius: 50%; background: #2a2a2a; transition: all 0.3s; }
+  #onboarding { max-width: 420px; width: 100%; padding: 24px 20px; display: none; flex-direction: column; }
+  .back-btn { background: none; border: none; color: #666; font-size: 14px; cursor: pointer; margin-bottom: 20px; display: block; text-align: left; padding: 0; }
+  .step-dots { display: flex; gap: 8px; margin-bottom: 24px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #2a2a2a; transition: all 0.3s; flex-shrink: 0; }
   .dot.active { background: #E1306C; width: 24px; border-radius: 4px; }
   .dot.done { background: #F77737; }
-  .onboard-title { font-size: 24px; font-weight: 700; margin-bottom: 20px; }
-  .field { width: 100%; background: #161616; border: 1px solid #2a2a2a; border-radius: 12px; color: #fff; font-size: 15px; padding: 14px 16px; font-family: inherit; outline: none; }
+  .onboard-title { font-size: 26px; font-weight: 700; margin-bottom: 20px; line-height: 1.2; }
+  .field { width: 100%; background: #161616; border: 1px solid #2a2a2a; border-radius: 12px; color: #fff; font-size: 15px; padding: 14px 16px; font-family: inherit; outline: none; display: block; }
   textarea.field { resize: vertical; line-height: 1.6; }
-
-  /* CHAT */
+  #step-input-wrap { width: 100%; margin-bottom: 16px; }
   #chat { width: 100%; max-width: 480px; height: 100vh; display: none; flex-direction: column; }
-  .chat-header { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid #1a1a1a; background: #0f0f0f; }
+  .chat-header { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid #1a1a1a; background: #0f0f0f; flex-shrink: 0; }
   .avatar { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #E1306C, #F77737); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
   .header-name { font-weight: 700; font-size: 15px; }
   .header-status { font-size: 11px; color: #4CAF50; margin-top: 2px; }
@@ -40,36 +35,30 @@
   .bubble { max-width: 75%; padding: 10px 14px; border-radius: 18px; font-size: 14px; line-height: 1.5; word-break: break-word; }
   .bubble.user { background: linear-gradient(135deg, #E1306C, #F77737); color: #fff; border-bottom-right-radius: 4px; }
   .bubble.ai { background: #1a1a1a; color: #eee; border: 1px solid #252525; border-bottom-left-radius: 4px; }
-  .input-bar { display: flex; gap: 10px; padding: 12px 16px; border-top: 1px solid #1a1a1a; background: #0f0f0f; align-items: flex-end; }
+  .input-bar { display: flex; gap: 10px; padding: 12px 16px; border-top: 1px solid #1a1a1a; background: #0f0f0f; align-items: flex-end; flex-shrink: 0; }
   .chat-input { flex: 1; background: #1a1a1a; border: 1px solid #252525; border-radius: 20px; color: #fff; font-size: 14px; padding: 10px 16px; resize: none; font-family: inherit; outline: none; }
   .send-btn { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #E1306C, #F77737); border: none; color: #fff; font-size: 18px; cursor: pointer; flex-shrink: 0; }
   .empty-state { text-align: center; color: #444; margin: auto; font-size: 14px; }
   .empty-icon { font-size: 36px; margin-bottom: 12px; }
-  .notif-banner { background: linear-gradient(135deg, #E1306C, #F77737); padding: 12px 16px; display: flex; gap: 12px; align-items: center; animation: slideDown 0.3s ease; }
+  .notif-banner { background: linear-gradient(135deg, #E1306C, #F77737); padding: 12px 16px; display: flex; gap: 12px; align-items: center; flex-shrink: 0; }
   .typing { display: flex; gap: 4px; align-items: center; }
   .typing span { width: 7px; height: 7px; border-radius: 50%; background: #555; display: inline-block; animation: bounce 1.2s infinite; }
   .typing span:nth-child(2) { animation-delay: 0.2s; }
   .typing span:nth-child(3) { animation-delay: 0.4s; }
-
-  /* DASHBOARD */
   #dashboard { width: 100%; max-width: 480px; height: 100vh; display: none; flex-direction: column; }
-  .dash-header { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid #1a1a1a; background: #0f0f0f; }
+  .dash-header { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid #1a1a1a; background: #0f0f0f; flex-shrink: 0; }
   .stats-row { display: flex; gap: 10px; margin-bottom: 20px; }
   .stat-card { flex: 1; background: #161616; border: 1px solid #2a2a2a; border-radius: 12px; padding: 14px; text-align: center; }
   .stat-num { font-size: 22px; font-weight: 800; background: linear-gradient(135deg, #E1306C, #F77737); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
   .stat-label { font-size: 11px; color: #666; margin-top: 4px; }
   .client-card { display: flex; align-items: center; gap: 12px; background: #161616; border: 1px solid #2a2a2a; border-radius: 14px; padding: 14px; margin-bottom: 10px; cursor: pointer; }
   .client-avatar { width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, #E1306C, #F77737); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; flex-shrink: 0; }
-  .pin-wrap { max-width: 420px; width: 100%; padding: 20px; animation: fadeUp 0.5s ease; display: none; flex-direction: column; align-items: center; }
-
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  #pin-screen { max-width: 420px; width: 100%; padding: 20px; display: none; flex-direction: column; align-items: center; text-align: center; }
   @keyframes bounce { 0%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-6px); } }
 </style>
 </head>
 <body>
 
-<!-- LANDING -->
 <div id="landing">
   <div class="logo-mark">✦</div>
   <h1>ReplyAI</h1>
@@ -78,16 +67,14 @@
   <button class="btn-ghost" onclick="showPinScreen()">Panel admin</button>
 </div>
 
-<!-- PIN SCREEN -->
-<div id="pin-screen" class="pin-wrap">
+<div id="pin-screen">
   <div style="font-size:36px;margin-bottom:16px;">🔒</div>
   <h2 style="margin-bottom:20px;">Panel Admin</h2>
-  <input class="field" type="password" id="pin-input" placeholder="PIN de acceso" style="margin-bottom:16px;">
+  <input class="field" type="password" id="pin-input" placeholder="PIN de acceso" style="margin-bottom:16px;text-align:center;">
   <button class="btn-primary" onclick="checkPin()">Entrar</button>
   <button class="btn-ghost" style="margin-top:10px;" onclick="showLanding()">← Atrás</button>
 </div>
 
-<!-- ONBOARDING -->
 <div id="onboarding">
   <button class="back-btn" onclick="onboardBack()">← Atrás</button>
   <div class="step-dots">
@@ -98,10 +85,9 @@
   </div>
   <h2 class="onboard-title" id="step-title">¿Cómo te llamas?</h2>
   <div id="step-input-wrap"></div>
-  <button class="btn-primary" style="margin-top:24px;" onclick="nextStep()">Siguiente →</button>
+  <button class="btn-primary" onclick="nextStep()" id="next-btn">Siguiente →</button>
 </div>
 
-<!-- CHAT -->
 <div id="chat">
   <div id="notif-area"></div>
   <div class="chat-header">
@@ -124,7 +110,6 @@
   </div>
 </div>
 
-<!-- DASHBOARD -->
 <div id="dashboard">
   <div class="dash-header">
     <button class="back-btn" style="margin:0;" onclick="showLanding()">←</button>
@@ -142,169 +127,92 @@ const STEPS = [
   { title: "¿Cómo escribes en tus DMs?", key: "style", type: "textarea", placeholder: "Ej: Escribo relajado, uso emojis, soy directo..." },
   { title: "Pega el contenido de tus posts", key: "posts", type: "textarea", placeholder: "Copia captions de tus últimos posts..." },
 ];
-
-let currentStep = 0;
-let formData = {};
+let currentStep = 0, formData = {}, activeClient = null, messages = [];
 let clients = JSON.parse(localStorage.getItem("replyai_clients") || "[]");
-let activeClient = null;
-let messages = [];
-
 function saveClients() { localStorage.setItem("replyai_clients", JSON.stringify(clients)); }
-
-function showLanding() {
-  hide("onboarding"); hide("chat"); hide("dashboard"); hide("pin-screen");
-  show("landing");
-}
-function showOnboarding() {
-  hide("landing"); currentStep = 0; formData = {};
-  renderStep(); show("onboarding");
-}
-function showPinScreen() { hide("landing"); show("pin-screen"); }
-function checkPin() {
-  if (document.getElementById("pin-input").value === "1234") {
-    hide("pin-screen"); showDashboard();
-  } else { alert("PIN incorrecto"); }
-}
-function show(id) { const el = document.getElementById(id); el.style.display = "flex"; }
-function hide(id) { document.getElementById(id).style.display = "none"; }
-
+function hideAll() { ["landing","onboarding","chat","dashboard","pin-screen"].forEach(id => document.getElementById(id).style.display = "none"); }
+function showLanding() { hideAll(); document.getElementById("landing").style.display = "flex"; document.getElementById("landing").style.flexDirection = "column"; }
+function showOnboarding() { hideAll(); currentStep = 0; formData = {}; renderStep(); document.getElementById("onboarding").style.display = "flex"; }
+function showPinScreen() { hideAll(); document.getElementById("pin-screen").style.display = "flex"; }
+function checkPin() { if (document.getElementById("pin-input").value === "1234") { hideAll(); showDashboard(); } else { alert("PIN incorrecto"); } }
 function renderStep() {
   const s = STEPS[currentStep];
   document.getElementById("step-title").textContent = s.title;
   const wrap = document.getElementById("step-input-wrap");
-  wrap.innerHTML = s.type === "input"
-    ? `<input class="field" id="step-field" placeholder="${s.placeholder}" value="${formData[s.key]||""}">`
-    : `<textarea class="field" id="step-field" rows="5" placeholder="${s.placeholder}">${formData[s.key]||""}</textarea>`;
-  document.querySelectorAll(".dot").forEach((d, i) => {
-    d.className = "dot" + (i === currentStep ? " active" : i < currentStep ? " done" : "");
-  });
-  const btn = document.querySelector("#onboarding .btn-primary");
-  btn.textContent = currentStep === STEPS.length - 1 ? "Activar mi AI ✦" : "Siguiente →";
+  wrap.innerHTML = s.type === "input" ? `<input class="field" id="step-field" placeholder="${s.placeholder}" value="${formData[s.key]||""}">` : `<textarea class="field" id="step-field" rows="5" placeholder="${s.placeholder}">${formData[s.key]||""}</textarea>`;
+  document.querySelectorAll(".dot").forEach((d,i) => { d.className = "dot" + (i===currentStep?" active":i<currentStep?" done":""); });
+  document.getElementById("next-btn").textContent = currentStep === STEPS.length-1 ? "Activar mi AI ✦" : "Siguiente →";
   setTimeout(() => document.getElementById("step-field")?.focus(), 100);
 }
-
 function nextStep() {
   const val = document.getElementById("step-field")?.value.trim();
   if (!val) return;
   formData[STEPS[currentStep].key] = val;
-  if (currentStep < STEPS.length - 1) { currentStep++; renderStep(); }
-  else { startChat(formData); }
+  if (currentStep < STEPS.length-1) { currentStep++; renderStep(); } else { startChat(formData); }
 }
-
-function onboardBack() {
-  if (currentStep === 0) showLanding();
-  else { currentStep--; renderStep(); }
-}
-
+function onboardBack() { if (currentStep===0) showLanding(); else { currentStep--; renderStep(); } }
 function startChat(data) {
-  const client = { ...data, id: Date.now(), messages: [], notifs: [] };
+  const client = {...data, id: Date.now(), messages: [], notifs: []};
   clients.push(client); saveClients();
   activeClient = client; messages = [];
-  hide("onboarding");
+  hideAll();
   document.getElementById("chat-name").textContent = data.name;
   document.getElementById("msg-area").innerHTML = `<div class="empty-state"><div class="empty-icon">💬</div><div>Envía un mensaje para probar tu AI</div></div>`;
-  show("chat");
+  document.getElementById("chat").style.display = "flex";
 }
-
-function buildSystem(client) {
-  return `Eres el AI del perfil de Instagram de ${client.name}. Responde exactamente como él/ella en sus DMs. Nadie debe saber que eres una IA.\n\nEstilo:\n${client.style}\n\nPosts:\n${client.posts}\n\nReglas: respuestas cortas y naturales, mismo idioma del mensaje, nunca menciones que eres IA, si piden fotos/videos di "un momento 😊".`;
-}
-
+function buildSystem(c) { return `Eres el AI del perfil de Instagram de ${c.name}. Responde exactamente como él/ella en sus DMs. Nadie debe saber que eres una IA.\n\nEstilo:\n${c.style}\n\nPosts:\n${c.posts}\n\nReglas: respuestas cortas y naturales, mismo idioma, nunca digas que eres IA, si piden fotos/videos di "un momento 😊".`; }
 async function sendMessage() {
   const input = document.getElementById("chat-input");
   const text = input.value.trim();
   if (!text) return;
   input.value = "";
-
   const isMedia = MEDIA_KEYWORDS.some(k => text.toLowerCase().includes(k));
-  messages.push({ role: "user", content: text });
+  messages.push({role:"user",content:text});
   renderMessages();
-
   const typing = addTyping();
-
   try {
-    const res = await fetch(API, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ system: buildSystem(activeClient), messages })
-    });
+    const res = await fetch(API, {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({system:buildSystem(activeClient),messages})});
     const data = await res.json();
     const reply = data.content?.[0]?.text || "...";
     typing.remove();
-    messages.push({ role: "assistant", content: reply });
+    messages.push({role:"assistant",content:reply});
     renderMessages();
-
-    if (isMedia) {
-      showNotif(text);
-      activeClient.notifs = activeClient.notifs || [];
-      activeClient.notifs.unshift({ time: new Date().toLocaleTimeString("es-MX",{hour:"2-digit",minute:"2-digit"}), msg: text });
-      saveClients();
-    }
-  } catch {
-    typing.remove();
-    messages.push({ role: "assistant", content: "Hubo un error, intenta de nuevo 🙁" });
-    renderMessages();
-  }
+    if (isMedia) { showNotif(text); activeClient.notifs = activeClient.notifs||[]; activeClient.notifs.unshift({time:new Date().toLocaleTimeString("es-MX",{hour:"2-digit",minute:"2-digit"}),msg:text}); saveClients(); }
+  } catch { typing.remove(); messages.push({role:"assistant",content:"Hubo un error 🙁"}); renderMessages(); }
 }
-
 function renderMessages() {
   const area = document.getElementById("msg-area");
-  area.innerHTML = messages.map(m => `
-    <div class="msg-row ${m.role === "user" ? "user" : "ai"}">
-      <div class="bubble ${m.role === "user" ? "user" : "ai"}">${m.content}</div>
-    </div>`).join("");
+  area.innerHTML = messages.map(m => `<div class="msg-row ${m.role==="user"?"user":"ai"}"><div class="bubble ${m.role==="user"?"user":"ai"}">${m.content}</div></div>`).join("");
   area.scrollTop = area.scrollHeight;
 }
-
 function addTyping() {
   const area = document.getElementById("msg-area");
   const div = document.createElement("div");
   div.className = "msg-row ai";
   div.innerHTML = `<div class="bubble ai"><div class="typing"><span></span><span></span><span></span></div></div>`;
-  area.appendChild(div);
-  area.scrollTop = area.scrollHeight;
+  area.appendChild(div); area.scrollTop = area.scrollHeight;
   return div;
 }
-
 function showNotif(msg) {
   const area = document.getElementById("notif-area");
-  area.innerHTML = `<div class="notif-banner"><span style="font-size:20px;">🔔</span><div><div style="font-weight:700;font-size:13px;">Solicitud de contenido</div><div style="font-size:12px;opacity:.85;">"${msg.slice(0,50)}${msg.length>50?"...":""}"</div></div></div>`;
+  area.innerHTML = `<div class="notif-banner"><span style="font-size:20px;">🔔</span><div><div style="font-weight:700;font-size:13px;">Solicitud de contenido</div><div style="font-size:12px;opacity:.85;">"${msg.slice(0,50)}"</div></div></div>`;
   setTimeout(() => area.innerHTML = "", 5000);
 }
-
-function handleKey(e) {
-  if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); }
-}
-
+function handleKey(e) { if (e.key==="Enter"&&!e.shiftKey) { e.preventDefault(); sendMessage(); } }
 function showDashboard() {
   const content = document.getElementById("dash-content");
-  const totalNotifs = clients.reduce((s, c) => s + (c.notifs?.length || 0), 0);
-  content.innerHTML = `
-    <div class="stats-row">
-      <div class="stat-card"><div class="stat-num">${clients.length}</div><div class="stat-label">Clientes</div></div>
-      <div class="stat-card"><div class="stat-num">${totalNotifs}</div><div class="stat-label">Solicitudes</div></div>
-      <div class="stat-card"><div class="stat-num">$${clients.length * 29}</div><div class="stat-label">MRR</div></div>
-    </div>
-    ${clients.length === 0 ? '<div class="empty-state"><div class="empty-icon">👥</div><div>No hay clientes aún</div></div>' :
-      clients.map(c => `
-        <div class="client-card" onclick="openClient(${c.id})">
-          <div class="client-avatar">${c.name?.charAt(0).toUpperCase()}</div>
-          <div style="flex:1;">
-            <div style="font-weight:700;">${c.name}</div>
-            <div style="font-size:12px;color:#888;">@${c.instagram}</div>
-          </div>
-          <div style="text-align:right;font-size:12px;color:#888;">${c.messages?.length||0} msgs</div>
-        </div>`).join("")}`;
-  hide("landing"); show("dashboard");
+  const totalNotifs = clients.reduce((s,c) => s+(c.notifs?.length||0), 0);
+  content.innerHTML = `<div class="stats-row"><div class="stat-card"><div class="stat-num">${clients.length}</div><div class="stat-label">Clientes</div></div><div class="stat-card"><div class="stat-num">${totalNotifs}</div><div class="stat-label">Solicitudes</div></div><div class="stat-card"><div class="stat-num">$${clients.length*29}</div><div class="stat-label">MRR</div></div></div>${clients.length===0?'<div class="empty-state"><div class="empty-icon">👥</div><div>No hay clientes aún</div></div>':clients.map(c=>`<div class="client-card" onclick="openClient(${c.id})"><div class="client-avatar">${c.name?.charAt(0).toUpperCase()}</div><div style="flex:1;"><div style="font-weight:700;">${c.name}</div><div style="font-size:12px;color:#888;">@${c.instagram}</div></div><div style="font-size:12px;color:#888;">${c.messages?.length||0} msgs</div></div>`).join("")}`;
+  document.getElementById("dashboard").style.display = "flex";
 }
-
 function openClient(id) {
-  activeClient = clients.find(c => c.id === id);
-  messages = activeClient.messages || [];
+  activeClient = clients.find(c => c.id===id);
+  messages = activeClient.messages||[];
   document.getElementById("chat-name").textContent = activeClient.name;
-  renderMessages();
-  hide("dashboard"); show("chat");
+  renderMessages(); hideAll();
+  document.getElementById("chat").style.display = "flex";
 }
+showLanding();
 </script>
 </body>
 </html>
